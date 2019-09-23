@@ -32,14 +32,13 @@ struct ARVORE{
 ARVORE *P;
 CLIENTE cadastro;
 
-struct ARVORE *insere(ARVORE *tree, TIPO informacao){
-    cout << informacao.nome << endl;
+struct ARVORE *insere(ARVORE *tree, TIPO *informacao){
+    cout << informacao->nome << endl;
     if(tree == NULL){
-
-        tree->informacao = informacao;
-    }else if(informacao.nome < tree->informacao.nome){
+        tree->informacao = *informacao;
+    }else if(informacao->nome < tree->informacao.nome){
         tree->esquerda = insere(tree->esquerda, informacao);
-    }else if(informacao.nome > tree->informacao.nome){
+    }else if(informacao->nome > tree->informacao.nome){
         tree->direita = insere(tree->direita, informacao);
     }
     return tree;
@@ -115,7 +114,7 @@ void infixa ( ARVORE *tree )
 }
 
 void apresentacao_tela() {
-    system ("cls");
+    system ("clear");
     cout << setfill('-');
     cout << setw(79) << "-" << endl;
     cout << setw(49) << "LISTA DE CADASTROS" << setw(30) << "-" << endl;
@@ -124,12 +123,13 @@ void apresentacao_tela() {
 
 void ler_cliente(int codigo) {
     apresentacao_tela();
-    string lixo;
-    getline(cin, lixo);
-    cadastro.status = 'I';
+    string aux;
+    getline(cin, aux);
+    cadastro.status = "I";
     cadastro.cod_cliente = ++codigo;
     cout << "Nome: ";
-    getline(cin,cadastro.nome);
+    getline(cin,aux);
+    cadastro.nome = aux;
     cout << "Endereco: ";
     getline(cin, cadastro.endereco);
     cout << "Bairro: ";
@@ -200,7 +200,7 @@ int main (void) {
 //                    nome = cadastro.nome;
 //                    for (int i = 0; i < (int)nome.length(); i++)
 //                        nome_minusculo += (char)(tolower(nome[i]));
-                    raiz= insere (raiz, cadastro);
+                    raiz= insere (raiz, &cadastro);
                 }
             }
         }
@@ -221,7 +221,7 @@ int main (void) {
                 arquivo.write ((char *) &cadastro, sizeof (CLIENTE));
 
                 //Insere na árvore.
-                raiz = insere(raiz, cadastro);
+                raiz = insere(raiz, &cadastro);
             }
 
             else if (retorno == 2) { //Excluir um cliente.
