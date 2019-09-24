@@ -23,7 +23,7 @@ typedef struct {
 
 struct ARVORE{
     ARVORE *esquerda;
-    TIPO informacao;
+    TIPO *informacao;
 //    int    codigo;
     ARVORE *direita;
 } ;
@@ -35,10 +35,10 @@ CLIENTE cadastro;
 struct ARVORE *insere(ARVORE *tree, TIPO *informacao){
     cout << informacao->nome << endl;
     if(tree == NULL){
-        tree->informacao = *informacao;
-    }else if(informacao->nome < tree->informacao.nome){
+        tree->informacao = informacao;
+    }else if(informacao->nome < tree->informacao->nome){
         tree->esquerda = insere(tree->esquerda, informacao);
-    }else if(informacao->nome > tree->informacao.nome){
+    }else if(informacao->nome > tree->informacao->nome){
         tree->direita = insere(tree->direita, informacao);
     }
     return tree;
@@ -58,7 +58,7 @@ struct ARVORE *retira(ARVORE *tree, string nome){  //Preestststringif (tree==NUL
          cout << "Arvore vazia" << endl;
     }
     else{
-        if (nome==tree->informacao.nome)
+        if (nome == tree->informacao->nome)
         {
             if (tree->esquerda==NULL)
             {
@@ -80,7 +80,7 @@ struct ARVORE *retira(ARVORE *tree, string nome){  //Preestststringif (tree==NUL
         }
         else
         {
-            if ( nome < tree->informacao.nome)
+            if ( nome < tree->informacao->nome)
             {
                 tree->esquerda = retira(tree->esquerda, nome);
             }
@@ -155,17 +155,17 @@ int busca(ARVORE *tree, string informacao)
     }
     else
     {
-        if ( informacao < tree->informacao.nome )
+        if ( informacao < tree->informacao->nome )
         {
             busca(tree->esquerda, informacao);
         }
-        else if ( informacao > tree->informacao.nome )
+        else if ( informacao > tree->informacao->nome )
         {
             busca(tree->direita, informacao);
         }
-        else if(informacao == tree->informacao.nome)
+        else if(informacao == tree->informacao->nome)
         {
-            caminho = tree->informacao.cod_cliente;
+            caminho = tree->informacao->cod_cliente;
         }
     }
     return caminho;
